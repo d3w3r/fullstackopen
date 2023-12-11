@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const Header = ({title}) => <h1>{title}</h1>
 const Button = ({name, handler}) => <button onClick={handler}>{name}</button>
-const Tag = ({name, value}) => <p>{name} {value}</p>
+const StatisticLine = ({text, value}) => <p>{text} {value}</p>
 const Options = ({items}) => {
   const button1 = items[0];
   const button2 = items[1];
@@ -31,12 +31,12 @@ const Statistics = ({items}) => {
 
   return (
     <div>
-      <Tag name={item1.name} value={item1.value}/>
-      <Tag name={item2.name} value={item2.value}/>
-      <Tag name={item3.name} value={item3.value}/>
-      <Tag name="all" value={total}/>
-      <Tag name="average" value={average}/>
-      <Tag name="positive" value={positive} />
+      <StatisticLine text="good" value={item1.value}/>
+      <StatisticLine text="neutral" value={item2.value}/>
+      <StatisticLine text="bad" value={item3.value}/>
+      <StatisticLine text="all" value={total}/>
+      <StatisticLine text="average" value={average}/>
+      <StatisticLine text="positive" value={positive} />
     </div>
   );
 }
