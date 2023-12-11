@@ -20,13 +20,14 @@ const Statistics = ({items}) => {
   const item1 = items[0];
   const item2 = items[1];
   const item3 = items[2];
-  let positive = "0 %";
+
 
   const total = item1.value + item2.value + item3.value;
   const average = Number(total / 3).toFixed(5);
+  const positive = Number((item1.value / total) * 100).toFixed(2) + " %";
 
-  if (total !== 0)
-    positive = Number((item1.value / total) * 100).toFixed(2) + " %";
+  if (total === 0)
+    return <p>No feedback given</p>
 
   return (
     <div>
