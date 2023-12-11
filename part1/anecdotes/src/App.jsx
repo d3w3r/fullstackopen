@@ -1,5 +1,15 @@
 import { useState } from "react"
 
+const Board = ({title, message, votes}) => {
+  return (
+    <div>
+      <h1>{title}</h1>
+      <p>{message}</p>
+      <p>has {votes} votes</p>
+    </div>
+  );
+}
+const Button = ({handler, title}) => <button onClick={handler}>{title}</button> 
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -24,13 +34,22 @@ const App = () => {
 
     newVotes[selected] += 1;
     setVotes(newVotes);
-  }
+  };
+
+  let max = { value: votes[0], index: 0};
+  votes.forEach((value, index) => {
+    if (value > max.value) {
+      max.value = value;
+      max.index = index;
+    }
+  });
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <button onClick={voteByAnecdote}>vote</button>
-      <button onClick={changeSelected}>next anecdote</button>
+      <Board title="Anecdote of the day" message={anecdotes[selected]} votes={votes[selected]} />
+      <Button handler={voteByAnecdote} title="vote"/>
+      <Button handler={changeSelected} title="next anecdote"/>
+      <Board title="Anecdote with most votes" message={anecdotes[max.index]} votes={votes[max.index]} />
     </div>
   )
 }
