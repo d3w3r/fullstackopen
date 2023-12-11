@@ -16,7 +16,7 @@ const Options = ({items}) => {
     </div>
   );
 }
-const Board = ({items}) => {
+const Statistics = ({items}) => {
   const item1 = items[0];
   const item2 = items[1];
   const item3 = items[2];
@@ -73,7 +73,7 @@ const App = () => {
       <Header title="give feedback" />
       <Options items={items} />
       <Header title="statistics" />
-      <Board items={items} />
+      <Statistics items={items} />
     </div>
   )
 }
