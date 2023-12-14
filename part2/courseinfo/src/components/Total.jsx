@@ -4,11 +4,12 @@ const Total = (props) => {
   const value =
     parts[0].exercises +
     parts[1].exercises +
-    parts[2].exercises;
+    parts[2].exercises +
+    parts[3].exercises;
 
   return (
     <>
-      <p>Number of exercises {value}</p>
+      <p><strong>total of {value} exercises</strong></p>
     </>
   );
 };
