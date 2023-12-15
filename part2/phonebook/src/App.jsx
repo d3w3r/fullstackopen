@@ -1,5 +1,9 @@
 import { useState } from 'react';
 
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
+
 const App = () => {
   const [persons, setPersons] = useState([
     {  id: 1, name: 'Arto Hellas', phone: '3204582922'},
@@ -53,29 +57,22 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with: <input value={newFilter} onChange={trackFilter}/>
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={trackName}/>
-        </div>
-        <div>
-          phone: <input value={newPhone} onChange={trackPhone}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <div>
-        {
-          filter
-            ? persons.filter(p => p.name.includes(newFilter)).map(p => <p key={p.id}>{p.name} {p.phone}</p>)
-            : persons.map(p => <p key={p.id}>{p.name} {p.phone}</p>)
-        }
-      </div>
+      <Filter
+        value={newFilter}
+        handler={trackFilter}
+      />
+      <h3>add a new</h3>
+      <PersonForm
+        handler={addName}
+        inputName={{value: newName, handler: trackName}} 
+        inputPhone={{value: newPhone, handler: trackPhone}}
+      />
+      <h3>Numbers</h3>
+      <Persons
+        toFilter={filter}
+        persons={persons}
+        filterWord={newFilter} 
+      />
     </div>
   )
 }
