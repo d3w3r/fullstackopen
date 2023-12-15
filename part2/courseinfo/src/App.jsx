@@ -1,4 +1,3 @@
-// import Course from './components/Course';
 import Curriculum from './components/Curriculum';
 
 const App = () => {
