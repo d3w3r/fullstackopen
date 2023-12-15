@@ -9,10 +9,24 @@ const App = () => {
   const trackInput = (event) => setNewName(event.target.value);
   const addName = (event) => {
     event.preventDefault();
-    const personObj = { id: persons.length + 1, name: newName };
-    setPersons(persons.concat(personObj));
+
+    const isKnown = persons.some(p => p.name === newName);
+    const isEmpty = newName.trim().length === 0;
+
+    if (isKnown) {
+      const msg = `${newName} is already added to phonebook`;
+      alert(msg);
+    } else if (isEmpty) {
+      const msg = `Empty values are not allowed!`;
+      alert(msg)
+    } else {
+      const personObj = { id: persons.length + 1, name: newName };
+      setPersons(persons.concat(personObj));
+    }
+
     setNewName('');
   };
+
 
   return (
     <div>
