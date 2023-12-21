@@ -5,8 +5,8 @@ const Persons = (props) => {
     <div>
       {
         toFilter
-          ? persons.filter(p => p.name.includes(filterWord)).map(p => <p key={p.id}>{p.name} {p.phone}</p>)
-          : persons.map(p => <p key={p.id}>{p.name} {p.phone}</p>)
+          ? persons.filter(p => p.name.includes(filterWord)).map(p => <p key={p.id}>{p.name} {p.number}</p>)
+          : persons.map(p => <p key={p.id}>{p.name} {p.number}</p>)
       }
     </div>
   );
