@@ -1,13 +1,15 @@
 const Persons = (props) => {
-  const { toFilter, filterWord, persons } = props;
+  const { toFilter, filterWord, persons, handlerbtn } = props;
+  let filteredList;
+
+  if (toFilter)
+    filteredList = persons.filter(person => person.name.includes(filterWord));
+  else
+    filteredList = Array.from(persons);
 
   return (
     <div>
-      {
-        toFilter
-          ? persons.filter(p => p.name.includes(filterWord)).map(p => <p key={p.id}>{p.name} {p.number}</p>)
-          : persons.map(p => <p key={p.id}>{p.name} {p.number}</p>)
-      }
+      {filteredList.map(e => <p key={e.id}>{e.name} {e.number} <button onClick={handlerbtn(e.id)}>delete</button></p>)}
     </div>
   );
 };

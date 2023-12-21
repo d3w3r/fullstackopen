@@ -65,6 +65,19 @@ const App = () => {
 
     setNewFilter(value);
   }
+  const handlerDelete = id => () => {
+    const confirmation = window.confirm(`Delete ${id}?`);
+
+    if (confirmation) {
+
+      personsServices
+        .remove(id)
+        .then(() => {
+          const newList = persons.filter(person => person.id !== id);
+          setPersons(newList)
+        })
+    }
+  };
 
   return (
     <div>
@@ -84,6 +97,7 @@ const App = () => {
         toFilter={filter}
         persons={persons}
         filterWord={newFilter} 
+        handlerbtn={handlerDelete}
       />
     </div>
   )

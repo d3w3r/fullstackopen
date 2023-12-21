@@ -12,4 +12,11 @@ const addNew = (newObject) => {
   return request.then(response => response.data)
 };
 
-export default { getAll, addNew };
+const remove = (id) => {
+  const NEW_URL = `${BASE_URL}/${id}`
+  const request = axios.delete(NEW_URL);
+
+  return request.then(response => response.data);
+};
+
+export default { getAll, addNew, remove };
