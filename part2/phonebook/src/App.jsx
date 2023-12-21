@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import personsServices from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
 
   const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => setPersons(response.data))
+    personsServices
+      .getAll()
+      .then(persons => setPersons(persons))
   };
 
   useEffect(hook, []);
@@ -43,11 +43,15 @@ const App = () => {
       alert(msg)
     } else {
       const personObj = {
-        id: persons.length + 1,
         name: newName,
         number: newPhone
       };
-      setPersons(persons.concat(personObj));
+
+      personsServices
+        .addNew(personObj)
+        .then(person => {
+          setPersons(persons.concat(person))
+        });
     }
 
     setNewName('');
