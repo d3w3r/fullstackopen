@@ -31,16 +31,42 @@ const App = () => {
     const emptyName = newName.trim().length === 0;
     const emptyPhone = newPhone.trim().length === 0;
 
-
-    if (!unknownName) {
-      const msg = `${newName} is already added to phonebook`;
-      alert(msg);
+    if (emptyName || emptyPhone) {
+      const msg = `Empty values are not allowed!`;
+      alert(msg)
     } else if (!unknownPhone) {
       const msg = `${newPhone} is already added to phonebook`;
       alert(msg);
-    } else if (emptyName || emptyPhone) {
-      const msg = `Empty values are not allowed!`;
-      alert(msg)
+    } else if (!unknownName) {
+      const msg =
+        'NAME is already added to phonebook,' +
+        'replace the old number with a new one?';
+
+      const msgParsed = msg.replace('NAME', newName);
+      const toUpdate = window.confirm(msgParsed);
+
+      if (toUpdate) {
+        const { id } = persons.find(p => p.name === newName);
+        const updatedList = persons.map(p => {
+          if (p.name !== newName) return p;
+          else {
+            const oldData = {...p};
+            oldData.number = newPhone;
+            return oldData;
+          }
+        });
+
+        const personObj = {
+          name: newName,
+          number: newPhone,
+        };
+
+        personsServices
+          .modify(personObj, id)
+          .then(() => {
+            setPersons(updatedList);
+          });
+      }
     } else {
       const personObj = {
         name: newName,

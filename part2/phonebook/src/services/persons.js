@@ -12,6 +12,12 @@ const addNew = (newObject) => {
   return request.then(response => response.data)
 };
 
+const modify = (chgObject, id) => {
+  const NEW_URL = `${BASE_URL}/${id}`;
+  const request = axios.put(NEW_URL, chgObject);  
+  return request.then(response => response.data);
+};
+
 const remove = (id) => {
   const NEW_URL = `${BASE_URL}/${id}`
   const request = axios.delete(NEW_URL);
@@ -19,4 +25,4 @@ const remove = (id) => {
   return request.then(response => response.data);
 };
 
-export default { getAll, addNew, remove };
+export default { getAll, addNew, remove, modify };
