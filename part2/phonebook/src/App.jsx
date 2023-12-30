@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import Notification from './components/Notification';
 import personsServices from './services/persons';
 
 const App = () => {
@@ -20,6 +21,8 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('');
   const [newFilter, setNewFilter] = useState('');
   const [filter, setFilter] = useState('false');
+  const [alertMsg, setAlertMsg] = useState(null);
+  const [alertType, setAlertType] = useState(null);
 
   const trackName = (event) => setNewName(event.target.value);
   const trackPhone = (event) => setNewPhone(event.target.value);
@@ -41,11 +44,20 @@ const App = () => {
       const msg =
         'NAME is already added to phonebook,' +
         'replace the old number with a new one?';
+      const msgNoti = `Modified ${newName}`;
 
       const msgParsed = msg.replace('NAME', newName);
       const toUpdate = window.confirm(msgParsed);
 
       if (toUpdate) {
+        setTimeout(() => {
+          setAlertMsg(null);
+          setAlertType(null);
+        }, 5e3);
+
+        setAlertMsg(msgNoti);
+        setAlertType('noti_put');
+
         const { id } = persons.find(p => p.name === newName);
         const updatedList = persons.map(p => {
           if (p.name !== newName) return p;
@@ -76,6 +88,15 @@ const App = () => {
       personsServices
         .addNew(personObj)
         .then(person => {
+          const msgNoti = `Added ${person.name}`;
+
+          setTimeout(() => {
+            setAlertMsg(null);
+            setAlertType(null);
+          }, 5e3);
+
+          setAlertType('noti_new');
+          setAlertMsg(msgNoti);
           setPersons(persons.concat(person))
         });
     }
@@ -108,6 +129,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={alertMsg} type={alertType}/>
       <Filter
         value={newFilter}
         handler={trackFilter}

@@ -1,0 +1,17 @@
+.noti_new {
+  border: 3px solid green;
+  padding: 10px;
+  color: green;
+  background-color: lightgray;
+  border-radius: 8px;
+  font-size: 20px;
+}
+.noti_put {
+  border: 3px solid blue;
+  padding: 10px;
+  color: blue;
+  background-color: lightgray;
+  border-radius: 8px;
+  font-size: 20px;
+};
+
