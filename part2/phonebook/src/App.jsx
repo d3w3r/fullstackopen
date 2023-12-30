@@ -77,6 +77,19 @@ const App = () => {
           .modify(personObj, id)
           .then(() => {
             setPersons(updatedList);
+          })
+          .catch(() => {
+            const msgNoti =
+              `Information of ${personObj.name} has ` +
+              'already been removed from server';
+
+            setTimeout(() => {
+              setAlertType(null);
+              setAlertMsg(null);
+            }, 5e3);
+
+            setAlertType('noti_err');
+            setAlertMsg(msgNoti);
           });
       }
     } else {
@@ -122,7 +135,7 @@ const App = () => {
         .then(() => {
           const newList = persons.filter(person => person.id !== id);
           setPersons(newList)
-        })
+        });
     }
   };
 
