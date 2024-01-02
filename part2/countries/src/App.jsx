@@ -12,6 +12,7 @@ const App = () => {
   const [inputText, setInputText] = useState('')
   const [countries, setCountries] = useState(null)
   const [matching, setMatching] = useState(null)
+  const [country, setCountry] = useState('')
 
   // Declaration Event-Handlers
   const inputHDL = (event) => {
@@ -19,6 +20,9 @@ const App = () => {
 
     setInputText(value)
     makeQuery(value)
+  }
+  const showBtn = (name) => () => {
+    setCountry(name)
   }
 
   // Declaration Use-Effects
@@ -29,8 +33,14 @@ const App = () => {
         setCountries(data)
       })
   }
+  const showCountry = () => {
+    makeQuery(country)
+    setInputText(country)
+  }
+
   // Assignation Use-Effects
   useEffect(loadData, [])
+  useEffect(showCountry, [country])
 
   // Declaration Custom-Actions
   const makeQuery = (value) => {
@@ -51,7 +61,7 @@ const App = () => {
   return (
     <div>
       <Formulary inputHDL={inputHDL} inputText={inputText} />
-      <List countries={matching} />
+      <List countries={matching} hdlShow={showBtn} />
     </div>
   )
 }

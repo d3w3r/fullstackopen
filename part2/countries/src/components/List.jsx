@@ -1,17 +1,26 @@
-const List = ({countries}) => {
+import ViewMessage from './ViewMessage'
+import ViewList from './ViewList'
+import ViewDetails from './ViewDetails'
+
+const List = ({countries, hdlShow}) => {
+  const messages = {
+    manyResults: 'Too many matches, specify another filter',
+    aloneResult: 'No matches specify a country in the search-bar',
+  }
+
   if (countries === null || countries.length <= 0 ) {
     return (
-      <>
-        <p>No matches specify a country in the search bar</p>
-      </>
+      <div>
+        <ViewMessage message={messages.aloneResult} />
+      </div>
     )
   }
 
   if (countries.length > 10) {
     return (
-      <>
-        <p>Too many matches, specify another filter</p>
-      </>
+      <div>
+        <ViewMessage message={messages.manyResults} />
+      </div>
     )
   }
 
@@ -19,30 +28,17 @@ const List = ({countries}) => {
     const country = countries[0];
 
     return (
-      <>
-        <h1>{country.name.common}</h1>
-        <p>capital {country.capital[0]}</p>
-        <p>area {country.area}</p>
-        <h3>languages:</h3>
-        <ul>
-          {
-            Object
-              .values(country.languages)
-              .map((l, i) => <li key={i}>{l}</li>)
-          }
-        </ul>
-        <img src={country.flags.png} />
-      </>
+      <div>
+        <ViewDetails country={country} />
+      </div>
     )
   }
 
   if (countries.length > 0 && countries.length <= 10) {
-    const names = countries.map(country => country.name.common);
-
     return (
-      <pre>
-        {names.join('\n')}
-      </pre>
+      <div>
+        <ViewList list={countries} hdlShow={hdlShow} />
+      </div>
     )
   }
 }
