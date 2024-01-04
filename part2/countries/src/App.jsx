@@ -3,6 +3,7 @@ import Formulary from './components/Formulary'
 import List from './components/List'
 
 import services from './services/countries';
+import serviceWeather from './services/weather';
 
 // Importing External Libraries
 import { useState, useEffect } from 'react'
@@ -54,7 +55,22 @@ const App = () => {
         if (name.includes(query)) return true;
       });
 
-      setMatching(matches);
+      if (matches.length == 1) {
+        const match = matches[0];
+
+        serviceWeather
+          .getByLL(match.latlng[1], match.latlng[0])
+          .then(response => {
+            const matchWeather = {
+              ...match,
+              weather: response,
+            }
+
+            setMatching([matchWeather]);
+          })
+      } else {
+        setMatching(matches);
+      }
     }
   }
 
