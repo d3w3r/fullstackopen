@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 const PORT = process.env.PORT || 3001
-const PERSONS = [
+let PERSONS = [
   {
     "id": 1,
     "name": "Arto Hellas",
@@ -40,6 +40,25 @@ app.get('/api/persons/:id', (request, response) => {
   else
     return response.json(person)
 })
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const result = PERSONS.reduce((result, person) => {
+    if (person.id === id)
+      result.removed = person;
+    else 
+      result.persons.push(person)
+
+    return result
+  }, { removed: null, persons: [] })
+
+  PERSONS = result.persons
+
+  if (result.removed === null)
+    return response.status(404).end()
+  else
+    return response.status(204).end()
+});
 
 app.get('/info', (request, response) => {
   const curdate = new Date()
