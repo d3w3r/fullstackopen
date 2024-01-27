@@ -31,6 +31,16 @@ app.get('/api/persons', (request, response) => {
   response.json(PERSONS)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const person = PERSONS.find(p => p.id === id)
+
+  if (!person)
+    return response.status(404).end()
+  else
+    return response.json(person)
+})
+
 app.get('/info', (request, response) => {
   const curdate = new Date()
   const messages = [
