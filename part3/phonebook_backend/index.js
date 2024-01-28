@@ -33,6 +33,23 @@ app.get('/api/persons', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
+
+  if (!body.name) 
+    return response
+      .status(400)
+      .json({ error: "A field is required: [name]"})
+  if (!body.number)
+    return response
+      .status(400)
+      .json({ error: "A field is required: [number]"})
+
+  const exists = PERSONS.some(p => p.name === body.name)
+
+  if (exists)
+    return response
+      .status(400)
+      .json({ error: "A field is wrong: [name-already exists]"})
+
   const id = Math.trunc(Math.random() * 1e8)
     .toString()
     .padStart(8, '0')
