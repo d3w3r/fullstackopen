@@ -92,7 +92,8 @@ app.get('/api/persons/:id', (request, response) => {
 app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   const result = PERSONS.reduce((result, person) => {
-    if (person.id === id)
+    const idPerson = Number(person.id)
+    if (idPerson === id)
       result.removed = person;
     else 
       result.persons.push(person)
