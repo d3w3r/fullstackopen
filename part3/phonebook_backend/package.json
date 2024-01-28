@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "deploy:backend": "rm -rf dist && fly deploy"
+    "build:frontend": "rm -rf dist && cd ../phonebook_frontend && npm run build && cp -r dist ../phonebook_backend",
+    "deploy:backend": "rm -rf dist && fly deploy",
+    "deploy:fullstack": "npm run build:frontend && fly deploy"
   },
   "keywords": [],
   "author": "",
