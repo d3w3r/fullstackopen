@@ -52,17 +52,15 @@ app.post('/api/persons', (request, response) => {
       .status(400)
       .json({ error: "A field is wrong: [name-already exists]"})
 
-  const id = Math.trunc(Math.random() * 1e8)
-    .toString()
-    .padStart(8, '0')
-  const person = {
-    id,
+  const person = new Person({
     name: body.name,
     number: body.number,
-  };
+  })
 
-  PERSONS.push(person)
-  response.json(person)
+
+  person.save(person).then(result => {
+    response.json(result)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
