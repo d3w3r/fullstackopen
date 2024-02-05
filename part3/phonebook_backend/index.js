@@ -27,13 +27,15 @@ app.use(morgan((tokens, req, res) => {
   ].join(' ')
 }))
 
-app.get('/api/persons', (request, response) => {
-  Person.find({}).then(data => {
-    response.json(data)
-  })
+app.get('/api/persons', (request, response, next) => {
+  Person.find({})
+    .then(data => {
+      response.json(data)
+    })
+    .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   if (!body.name) 
@@ -58,9 +60,11 @@ app.post('/api/persons', (request, response) => {
   })
 
 
-  person.save(person).then(result => {
-    response.json(result)
-  })
+  person.save(person)
+    .then(result => {
+      response.json(result)
+    })
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -73,6 +77,17 @@ app.get('/api/persons/:id', (request, response) => {
     return response.json(person)
 })
 
+app.put('/api/persons/:id', (request, response, next) => {
+  const id = request.params.id
+  const body = request.body
+
+  Person.findByIdAndUpdate(id, body, { new: true })
+    .then(result => {
+      response.json(result)
+    })
+    .catch(error => next(error))
+})
+
 app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
@@ -83,7 +98,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 });
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
   const curdate = new Date()
   const messages = [
     `<p>Phonebook has info for ${PERSONS.length} people</p>`,
