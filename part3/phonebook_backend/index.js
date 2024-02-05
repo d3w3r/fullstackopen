@@ -74,23 +74,15 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const result = PERSONS.reduce((result, person) => {
-    const idPerson = Number(person.id)
-    if (idPerson === id)
-      result.removed = person;
-    else 
-      result.persons.push(person)
+  const id = request.params.id
 
-    return result
-  }, { removed: null, persons: [] })
-
-  PERSONS = result.persons
-
-  if (result.removed === null)
-    return response.status(404).end()
-  else
-    return response.status(204).end()
+  Person.findByIdAndDelete(id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => {
+      response.status(500).end()
+    })
 });
 
 app.get('/info', (request, response) => {
