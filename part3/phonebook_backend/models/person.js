@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 mongoose.connect(process.env.MONGODB_URI)
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {
-    console.log('error connecting to MongoDB:', error.message);
+    console.log('error connecting to MongoDB:', error.message)
   })
 
 const personSchema = new mongoose.Schema({
@@ -26,7 +26,7 @@ const personSchema = new mongoose.Schema({
       message: props => `${props.value} is not a valid phone number`
     }
   }
-});
+})
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
@@ -35,8 +35,8 @@ personSchema.set('toJSON', {
     delete returnedObject._id
     delete returnedObject.__v
   }
-});
+})
 
-const Person = mongoose.model('Person', personSchema);
+const Person = mongoose.model('Person', personSchema)
 
 module.exports = { Person }

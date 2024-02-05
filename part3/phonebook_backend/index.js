@@ -1,13 +1,13 @@
-require('dotenv').config();
+require('dotenv').config()
 const express = require('express')
 const morgan  = require('morgan')
 
-const { Person } = require('./models/person');
+const { Person } = require('./models/person')
 
 const PORT = process.env.PORT || 3001
 
 const app = express()
-morgan.token('body', (req, res) => {
+morgan.token('body', (req) => {
   return JSON.stringify(req.body)
 })
 
@@ -38,21 +38,21 @@ app.get('/api/persons', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
-  if (!body.name) 
+  if (!body.name)
     return response
       .status(400)
-      .json({ error: "A field is required: [name]"})
+      .json({ error: 'A field is required: [name]' })
   if (!body.number)
     return response
       .status(400)
-      .json({ error: "A field is required: [number]"})
+      .json({ error: 'A field is required: [number]' })
 
   const exists = PERSONS.some(p => p.name === body.name)
 
   if (exists)
     return response
       .status(400)
-      .json({ error: "A field is wrong: [name-already exists]"})
+      .json({ error: 'A field is wrong: [name-already exists]' })
 
   const person = new Person({
     name: body.name,
@@ -99,13 +99,13 @@ app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
   Person.findByIdAndDelete(id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
-});
+})
 
-app.get('/info', (request, response, next) => {
+app.get('/info', (request, response) => {
   const curdate = new Date()
   const messages = [
     `<p>Phonebook has info for ${PERSONS.length} people</p>`,

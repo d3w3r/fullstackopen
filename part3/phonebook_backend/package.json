@@ -9,7 +9,8 @@
     "dev": "nodemon index.js",
     "build:frontend": "rm -rf dist && cd ../phonebook_frontend && npm run build && cp -r dist ../phonebook_backend",
     "deploy:backend": "rm -rf dist && fly deploy",
-    "deploy:fullstack": "npm run build:frontend && fly deploy"
+    "deploy:fullstack": "npm run build:frontend && fly deploy",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.0",
+    "eslint": "^8.56.0",
     "nodemon": "^3.0.2"
   },
   "engines": {

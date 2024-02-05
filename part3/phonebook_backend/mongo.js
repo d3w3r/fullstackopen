@@ -8,9 +8,9 @@ const NUMBER    = CLI_ARGS[2]
 
 if (!PASSWORD)  throw new Error('Missing arg PASSWORD')
 
-const URL = 
+const URL =
   `mongodb+srv://fullstackopen:${PASSWORD}` +
-  `@cluster0.n77wgt9.mongodb.net/phonebook_app?retryWrites=true&w=majority`
+  '@cluster0.n77wgt9.mongodb.net/phonebook_app?retryWrites=true&w=majority'
 
 mongoose.set('strictQuery', false)
 mongoose.connect(URL)
@@ -30,8 +30,8 @@ if (!NAME && !NUMBER) {
         .join('\n')
       console.log(`phonebook:\n${recordsSTR}`)
 
-      mongoose.connection.close();
-    });
+      mongoose.connection.close()
+    })
 } else if (NAME && NUMBER) {
   const register = new Person({
     name: NAME,
