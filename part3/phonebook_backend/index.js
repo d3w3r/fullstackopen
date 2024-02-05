@@ -67,14 +67,17 @@ app.post('/api/persons', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = PERSONS.find(p => p.id === id)
+app.get('/api/persons/:id', (request, response, next) => {
+  const id = request.params.id
 
-  if (!person)
-    return response.status(404).end()
-  else
-    return response.json(person)
+  Person.findById(id)
+    .then(result => {
+      if (result)
+        response.json(result)
+      else
+        response.status(404).send({ error: 'unkown id' })
+    })
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
