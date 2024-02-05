@@ -82,9 +82,13 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.put('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
-  const body = request.body
+  const { name, number } = request.body
 
-  Person.findByIdAndUpdate(id, body, { new: true })
+  Person.findByIdAndUpdate(
+    id,
+    { name, number },
+    { new: true, runValidator: true, context: 'query' }
+  )
     .then(result => {
       response.json(result)
     })
@@ -120,6 +124,8 @@ const middlewareError = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformed id' })
+  } else if (error.name === 'ValidationError')  {
+    return response.status(400).send({ error: error.message })
   }
 
   next(error)

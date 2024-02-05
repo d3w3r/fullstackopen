@@ -101,17 +101,28 @@ const App = () => {
       personsServices
         .addNew(personObj)
         .then(person => {
-          const msgNoti = `Added ${person.name}`;
+          const msgNoti = `Added ${person.name}`
 
           setTimeout(() => {
-            setAlertMsg(null);
-            setAlertType(null);
-          }, 5e3);
+            setAlertMsg(null)
+            setAlertType(null)
+          }, 5e3)
 
-          setAlertType('noti_new');
-          setAlertMsg(msgNoti);
+          setAlertType('noti_new')
+          setAlertMsg(msgNoti)
           setPersons(persons.concat(person))
-        });
+        })
+        .catch(error => {
+          const { data } = error.response
+
+          setTimeout(() => {
+            setAlertType(null)
+            setAlertMsg(null)
+          }, 5e3)
+
+          setAlertType('noti_err')
+          setAlertMsg(data.error)
+        })
     }
 
     setNewName('');
