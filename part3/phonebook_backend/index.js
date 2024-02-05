@@ -73,16 +73,14 @@ app.get('/api/persons/:id', (request, response) => {
     return response.json(person)
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
   Person.findByIdAndDelete(id)
     .then(result => {
       response.status(204).end()
     })
-    .catch(error => {
-      response.status(500).end()
-    })
+    .catch(error => next(error))
 });
 
 app.get('/info', (request, response) => {
@@ -94,6 +92,23 @@ app.get('/info', (request, response) => {
 
   response.send(messages.join(''))
 })
+
+const middlewareUnknown = (request, response) => {
+  response.status(404).send({ error: 'unkown endpoint' })
+}
+
+const middlewareError = (error, request, response, next) => {
+  console.log(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformed id' })
+  }
+
+  next(error)
+}
+
+app.use(middlewareUnknown)
+app.use(middlewareError)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
